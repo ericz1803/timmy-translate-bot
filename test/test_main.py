@@ -1,7 +1,7 @@
 import unittest
 
 import sys
-sys.path.append('../src')
+sys.path.append('../')
 from main import map_code_to_name, map_input_to_language_code
 
 class TestMappingFunctions(unittest.TestCase):
