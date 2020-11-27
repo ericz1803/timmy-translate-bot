@@ -1,6 +1,5 @@
 Pipfile
 Pipfile.lock
-constants.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

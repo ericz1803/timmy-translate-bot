@@ -4,6 +4,8 @@ from telegram.ext import Updater, CommandHandler
 from google.cloud import translate_v2 as translate
 from google.oauth2 import service_account
 
+import os
+
 translate_client = translate.Client(credentials=service_account.Credentials.from_service_account_info(GOOGLE_APPLICATION_CREDENTIALS))
 
 languages = translate_client.get_languages()
@@ -64,8 +66,17 @@ def main():
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("translate", translate_message))
 
-    updater.start_polling()
-    updater.idle()
+    if os.getenv("MODE"):
+        PORT = int(os.environ.get("PORT", "8443"))
+        HEROKU_APP_NAME = "timmy-translator-bot"
+        # Code from https://github.com/python-telegram-bot/python-telegram-bot/wiki/Webhooks#heroku
+        updater.start_webhook(listen="0.0.0.0",
+                              port=PORT,
+                              url_path=BOT_TOKEN)
+        updater.bot.set_webhook("https://{}.herokuapp.com/{}".format(HEROKU_APP_NAME, BOT_TOKEN))
+    else:
+        updater.start_polling()
+        updater.idle()
 
 if __name__ == '__main__':
     main()
