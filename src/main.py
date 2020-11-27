@@ -33,6 +33,7 @@ def translate_message(update, context):
 
     if (message.reply_to_message): # translate response
         #if target language specified else default to english
+        target_language = "en"
         if (context.args):
             target_language = map_input_to_language_code(context.args[0])
             if not target_language:
@@ -40,7 +41,6 @@ def translate_message(update, context):
                 reply_to_message_id=message.message_id, 
                 text=f"{context.args[0]} is not a valid language name or code. Translating to English instead.")
                 target_language="en"
-
 
         reply_text = message.reply_to_message.text
         translated_text, source_language = translate(reply_text, target_language)
