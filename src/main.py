@@ -39,6 +39,7 @@ def translate_message(update, context):
                 context.bot.send_message(chat_id=update.effective_chat.id, 
                 reply_to_message_id=message.message_id, 
                 text=f"{context.args[0]} is not a valid language name or code. Translating to English instead.")
+                target_language="en"
 
 
         reply_text = message.reply_to_message.text
